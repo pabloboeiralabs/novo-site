@@ -1,0 +1,2096 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Z Conecta — O sistema completo para sua barbearia ou clínica</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet" />
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --navy: #001647;
+      --blue: #0a4ee4;
+      --blue-light: #2563eb;
+      --cream: #f3f6f9;
+      --white: #ffffff;
+      --text-body: #4d5c7e;
+      --text-dark: #001647;
+      --radius-section: 64px;
+      --font: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font);
+      background: var(--white);
+      color: var(--text-dark);
+      overflow-x: hidden;
+    }
+
+    /* ─── NAV ─────────────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      height: 72px;
+      background: rgba(0, 22, 71, 0.92);
+      backdrop-filter: blur(12px);
+      display: flex;
+      align-items: center;
+      padding: 0 80px;
+      justify-content: space-between;
+    }
+
+    .nav-logo {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--white);
+      letter-spacing: -0.5px;
+    }
+
+    .nav-logo span {
+      color: #60a5fa;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: rgba(255, 255, 255, 0.75);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--white);
+    }
+
+    .nav-cta {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .btn-nav-outline {
+      padding: 10px 20px;
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      border-radius: 100px;
+      color: var(--white);
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+
+    .btn-nav-outline:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .btn-nav-primary {
+      padding: 10px 20px;
+      border-radius: 100px;
+      background: var(--blue);
+      color: var(--white);
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+
+    .btn-nav-primary:hover {
+      background: var(--blue-light);
+    }
+
+    /* ─── HERO ────────────────────────────────────────────── */
+    .hero {
+      position: relative;
+      background: var(--navy);
+      min-height: 100vh;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      padding: 120px 80px 80px;
+    }
+
+    .hero-carousel {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .carousel-slide {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 0.8s ease-in-out;
+    }
+
+    .carousel-slide.active {
+      opacity: 1;
+    }
+
+    .carousel-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .carousel-mask {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg,
+          var(--navy) 0%,
+          var(--navy) 15%,
+          transparent 30%,
+          transparent 70%,
+          var(--navy) 85%,
+          var(--navy) 100%),
+        linear-gradient(180deg,
+          var(--navy) 0%,
+          transparent 15%,
+          transparent 85%,
+          var(--navy) 100%);
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    .carousel-controls {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+      display: flex;
+      gap: 8px;
+    }
+
+    .carousel-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+      cursor: pointer;
+      transition: background 0.3s, width 0.3s;
+    }
+
+    .carousel-dot.active {
+      background: var(--white);
+      width: 24px;
+      border-radius: 4px;
+    }
+
+    .carousel-nav {
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 10;
+      display: none;
+      gap: 12px;
+      padding: 0 40px;
+    }
+
+    .carousel-btn {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      background: transparent;
+      color: white;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .carousel-btn:hover {
+      border-color: rgba(255, 255, 255, 0.8);
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 20;
+      max-width: 1280px;
+      width: 100%;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .hero-eyebrow {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #60a5fa;
+      margin-bottom: 20px;
+    }
+
+    .hero-title {
+      font-size: clamp(36px, 4vw, 58px);
+      font-weight: 800;
+      color: var(--white);
+      line-height: 1.08;
+      margin-bottom: 24px;
+      text-wrap: pretty;
+    }
+
+    .hero-title em {
+      font-style: normal;
+      color: #60a5fa;
+    }
+
+    .hero-desc {
+      font-size: 17px;
+      font-weight: 400;
+      color: rgba(255, 255, 255, 0.72);
+      line-height: 1.65;
+      margin-bottom: 40px;
+      max-width: 520px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      padding: 14px 28px;
+      border-radius: 100px;
+      background: var(--blue);
+      color: var(--white);
+      font-size: 15px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.15s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-primary:hover {
+      background: var(--blue-light);
+      transform: translateY(-1px);
+    }
+
+    .btn-outline {
+      padding: 14px 28px;
+      border-radius: 100px;
+      border: 1.5px solid rgba(255, 255, 255, 0.4);
+      color: var(--white);
+      font-size: 15px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background 0.2s, border-color 0.2s;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .btn-outline:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.7);
+    }
+
+    .hero-visual {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .hero-card {
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(20px);
+      border-radius: 24px;
+      padding: 28px;
+      width: 100%;
+      max-width: 480px;
+      display: none;
+    }
+
+    .hero-card-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .hero-card-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    .stat-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .stat-box {
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 14px;
+      padding: 16px;
+      text-align: center;
+    }
+
+    .stat-num {
+      font-size: 26px;
+      font-weight: 800;
+      color: var(--white);
+      display: block;
+    }
+
+    .stat-label {
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.5);
+      margin-top: 4px;
+      display: block;
+    }
+
+    .hero-feature-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .hero-feat {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.75);
+      font-weight: 500;
+    }
+
+    .hero-feat-icon {
+      width: 22px;
+      height: 22px;
+      border-radius: 6px;
+      background: var(--blue);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .hero-feat-icon svg {
+      width: 12px;
+      height: 12px;
+    }
+
+    /* ─── SECTION BASE ───────────────────────────────────── */
+    section {
+      position: relative;
+    }
+
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 80px;
+    }
+
+    /* ─── SECTION: IA AGENT ──────────────────────────────── */
+    .section-ia {
+      background: var(--navy);
+      padding: 80px 80px 120px;
+    }
+
+    .ia-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      border-radius: 48px;
+      border: 16px solid rgba(255, 255, 255, 0.14);
+    }
+
+    .ia-card {
+      background: var(--cream);
+      border-radius: 34px;
+      padding: 72px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .section-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--blue);
+      background: rgba(10, 78, 228, 0.1);
+      padding: 6px 14px;
+      border-radius: 100px;
+      margin-bottom: 20px;
+    }
+
+    .section-title {
+      font-size: clamp(28px, 3vw, 44px);
+      font-weight: 800;
+      color: var(--navy);
+      line-height: 1.1;
+      margin-bottom: 20px;
+      text-wrap: pretty;
+    }
+
+    .section-title em {
+      font-style: normal;
+      color: var(--blue);
+    }
+
+    .section-desc {
+      font-size: 16px;
+      color: var(--text-body);
+      line-height: 1.7;
+      margin-bottom: 32px;
+    }
+
+    .feature-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-bottom: 36px;
+    }
+
+    .feature-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 15px;
+      color: var(--text-body);
+      font-weight: 500;
+    }
+
+    .feature-check {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--blue);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .feature-check svg {
+      width: 11px;
+      height: 11px;
+    }
+
+    .btn-dark {
+      padding: 14px 28px;
+      border-radius: 100px;
+      background: var(--navy);
+      color: var(--white);
+      font-size: 15px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: background 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-dark:hover {
+      background: #002080;
+    }
+
+    .btn-ghost {
+      padding: 14px 28px;
+      border-radius: 100px;
+      border: 1.5px solid var(--navy);
+      color: var(--navy);
+      font-size: 15px;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      transition: background 0.2s;
+    }
+
+    .btn-ghost:hover {
+      background: rgba(0, 22, 71, 0.06);
+    }
+
+    .btn-pair {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    /* ─── VISUAL MOCKUP ─────────────────────────────────── */
+    .visual-mockup {
+      position: relative;
+    }
+
+    .visual-mockup img {
+      width: 100%;
+      border-radius: 20px;
+      box-shadow: 0 32px 80px rgba(0, 22, 71, 0.18);
+    }
+
+    /* Chat bubble for AI section */
+    .chat-bubble {
+      position: absolute;
+      background: white;
+      border-radius: 16px;
+      padding: 14px 18px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--navy);
+      max-width: 200px;
+    }
+
+    .chat-bubble.left {
+      bottom: -20px;
+      left: -24px;
+    }
+
+    .chat-bubble.right {
+      top: 20px;
+      right: -24px;
+    }
+
+    .chat-bubble-label {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--blue);
+      margin-bottom: 4px;
+    }
+
+    /* ─── FEATURE SECTIONS (alternating) ────────────────── */
+    .feature-section {
+      padding: 100px 80px;
+    }
+
+    .feature-section.dark {
+      background: var(--navy);
+    }
+
+    .feature-section.light {
+      background: var(--white);
+    }
+
+    .feature-section.cream {
+      background: var(--cream);
+    }
+
+    .feature-grid {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 100px;
+      align-items: center;
+    }
+
+    .feature-grid.reverse {
+      direction: rtl;
+    }
+
+    .feature-grid.reverse>* {
+      direction: ltr;
+    }
+
+    .feature-text .section-tag {}
+
+    /* Dark section text overrides */
+    .dark .section-title {
+      color: var(--white);
+    }
+
+    .dark .section-desc {
+      color: rgba(255, 255, 255, 0.65);
+    }
+
+    .dark .feature-item {
+      color: rgba(255, 255, 255, 0.72);
+    }
+
+    .dark .feature-check {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .dark .section-tag {
+      color: #60a5fa;
+      background: rgba(96, 165, 250, 0.12);
+    }
+
+    .screen-stack {
+      position: relative;
+      display: flex;
+      justify-content: center;
+    }
+
+    .screen-main {
+      width: 100%;
+      max-width: 440px;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 40px 100px rgba(0, 22, 71, 0.22);
+    }
+
+    .screen-main img {
+      width: 100%;
+      display: block;
+    }
+
+    .float-badge {
+      position: absolute;
+      background: white;
+      border-radius: 14px;
+      padding: 12px 16px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.14);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .float-badge.tl {
+      top: -16px;
+      left: -16px;
+    }
+
+    .float-badge.br {
+      bottom: -16px;
+      right: -16px;
+    }
+
+    .float-badge-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: var(--blue);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .float-badge-icon svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .float-badge-text {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    .float-badge-sub {
+      font-size: 11px;
+      color: var(--text-body);
+    }
+
+    /* ─── KANBAN / CRM ──────────────────────────────────── */
+    .kanban-demo {
+      background: white;
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: 0 32px 80px rgba(0, 22, 71, 0.16);
+      min-width: 320px;
+    }
+
+    .kanban-header {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .kanban-cols {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .kanban-col-title {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-body);
+      margin-bottom: 8px;
+    }
+
+    .kanban-card {
+      background: var(--cream);
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--navy);
+      margin-bottom: 6px;
+      border-left: 3px solid var(--blue);
+    }
+
+    .kanban-card.green {
+      border-color: #22c55e;
+    }
+
+    .kanban-card.amber {
+      border-color: #f59e0b;
+    }
+
+    /* ─── TESTIMONIAL ──────────────────────────────────── */
+    .section-testimonial {
+      background: var(--cream);
+      padding: 100px 80px;
+    }
+
+    .testimonial-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .testimonial-quote {
+      font-size: clamp(22px, 2.5vw, 34px);
+      font-weight: 700;
+      color: var(--navy);
+      line-height: 1.35;
+      margin-bottom: 32px;
+    }
+
+    .testimonial-quote::before {
+      content: '"';
+      font-size: 80px;
+      line-height: 0;
+      color: var(--blue);
+      display: block;
+      margin-bottom: 24px;
+      font-family: Georgia, serif;
+    }
+
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .author-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--blue);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      font-weight: 800;
+      color: white;
+    }
+
+    .author-name {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    .author-role {
+      font-size: 13px;
+      color: var(--text-body);
+    }
+
+    .testimonial-photos {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .testimonial-photos img {
+      width: 100%;
+      border-radius: 20px;
+      object-fit: cover;
+      height: 200px;
+    }
+
+    .testimonial-photos img:first-child {
+      grid-column: span 2;
+      height: 260px;
+    }
+
+    /* ─── METRICS ───────────────────────────────────────── */
+    .section-metrics {
+      background: var(--navy);
+      padding: 100px 80px;
+      border-radius: var(--radius-section) var(--radius-section) 0 0;
+    }
+
+    .metrics-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .metrics-photos {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .metrics-photos img {
+      width: 100%;
+      border-radius: 20px;
+      object-fit: cover;
+      height: 200px;
+    }
+
+    .metrics-photos img:last-child {
+      grid-column: span 2;
+      height: 220px;
+    }
+
+    .metric-item {
+      margin-bottom: 36px;
+    }
+
+    .metric-num {
+      font-size: clamp(40px, 5vw, 64px);
+      font-weight: 800;
+      color: var(--white);
+      line-height: 1;
+      display: flex;
+      align-items: baseline;
+      gap: 4px;
+    }
+
+    .metric-num span {
+      font-size: 0.55em;
+      color: #60a5fa;
+    }
+
+    .metric-label {
+      font-size: 16px;
+      color: rgba(255, 255, 255, 0.6);
+      margin-top: 8px;
+    }
+
+    /* ─── CTA FINAL ─────────────────────────────────────── */
+    .section-cta {
+      background: var(--navy);
+      padding: 100px 80px;
+      text-align: center;
+    }
+
+    .cta-inner {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .cta-title {
+      font-size: clamp(32px, 4vw, 52px);
+      font-weight: 800;
+      color: var(--white);
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+
+    .cta-desc {
+      font-size: 17px;
+      color: rgba(255, 255, 255, 0.65);
+      margin-bottom: 40px;
+      line-height: 1.6;
+    }
+
+    /* ─── FOOTER ─────────────────────────────────────────── */
+    footer {
+      background: var(--white);
+      padding: 80px 80px 48px;
+    }
+
+    .footer-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    .footer-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding-bottom: 48px;
+      border-bottom: 1px solid #e5e8ed;
+      margin-bottom: 48px;
+    }
+
+    .footer-brand {
+      max-width: 280px;
+    }
+
+    .footer-logo {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 12px;
+    }
+
+    .footer-logo span {
+      color: var(--blue);
+    }
+
+    .footer-tagline {
+      font-size: 14px;
+      color: var(--text-body);
+      line-height: 1.6;
+    }
+
+    .footer-cols {
+      display: grid;
+      grid-template-columns: repeat(4, auto);
+      gap: 60px;
+    }
+
+    .footer-col-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 16px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .footer-col ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .footer-col a {
+      font-size: 14px;
+      color: var(--text-body);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .footer-col a:hover {
+      color: var(--navy);
+    }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-copy {
+      font-size: 13px;
+      color: var(--text-body);
+    }
+
+    .footer-social {
+      display: flex;
+      gap: 12px;
+    }
+
+    .social-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 1px solid #e5e8ed;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-body);
+      text-decoration: none;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .social-btn:hover {
+      border-color: var(--navy);
+      color: var(--navy);
+    }
+
+    .social-btn svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* ─── UTILS ─────────────────────────────────────────── */
+    .divider-pill {
+      display: inline-flex;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 100px;
+      padding: 6px 14px;
+      font-size: 12px;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.6);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    /* ─── SCROLL ANIMATIONS ─────────────────────────────── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .fade-up.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    .fade-up:nth-child(2) {
+      transition-delay: 0.1s;
+    }
+
+    .fade-up:nth-child(3) {
+      transition-delay: 0.2s;
+    }
+
+    /* ─── RESPONSIVE ─────────────────────────────────────── */
+    @media (max-width: 1024px) {
+      nav {
+        padding: 0 32px;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .hero {
+        padding: 100px 32px 60px;
+      }
+
+      .hero-inner {
+        grid-template-columns: 1fr;
+        gap: 48px;
+      }
+
+      .feature-section {
+        padding: 70px 32px;
+      }
+
+      .feature-grid {
+        grid-template-columns: 1fr;
+        gap: 48px;
+      }
+
+      .feature-grid.reverse {
+        direction: ltr;
+      }
+
+      .ia-card {
+        grid-template-columns: 1fr;
+        gap: 48px;
+        padding: 40px;
+      }
+
+      .section-ia {
+        padding: 60px 32px;
+      }
+
+      .section-testimonial {
+        padding: 70px 32px;
+      }
+
+      .testimonial-inner {
+        grid-template-columns: 1fr;
+        gap: 48px;
+      }
+
+      .section-metrics {
+        padding: 70px 32px;
+      }
+
+      .metrics-inner {
+        grid-template-columns: 1fr;
+        gap: 48px;
+      }
+
+      .section-cta {
+        padding: 70px 32px;
+      }
+
+      footer {
+        padding: 60px 32px 40px;
+      }
+
+      .footer-top {
+        flex-direction: column;
+        gap: 40px;
+      }
+
+      .footer-cols {
+        grid-template-columns: 1fr 1fr;
+        gap: 32px;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        gap: 20px;
+        text-align: center;
+      }
+
+      .container {
+        padding: 0 32px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">Z<span>Conecta</span></div>
+    <ul class="nav-links">
+      <li><a href="#agendamento">Agendamento</a></li>
+      <li><a href="#whatsapp">WhatsApp IA</a></li>
+      <li><a href="#crm">CRM</a></li>
+      <li><a href="#relatorios">Relatórios</a></li>
+      <li><a href="#planos">Planos</a></li>
+    </ul>
+    <div class="nav-cta">
+      <a href="https://conecta.zlabs.com.br/login" class="btn-nav-outline">Entrar</a>
+      <a href="https://conecta.zlabs.com.br/login" class="btn-nav-primary">Teste grátis</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-carousel">
+      <div class="carousel-slide active">
+        <img src="assets/hero-bg.jpg" alt="Slide 1" data-img="heroBg" />
+      </div>
+      <div class="carousel-slide">
+        <img src="assets/hero-bg2.jpg" alt="Slide 2" data-img="heroBg2" />
+      </div>
+      <div class="carousel-slide">
+        <img src="assets/feature1.jpg" alt="Slide 3" data-img="feature1" />
+      </div>
+      <div class="carousel-mask"></div>
+      <div class="carousel-nav">
+        <button class="carousel-btn" id="prev-btn" aria-label="Slide anterior">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"
+            stroke-linecap="round">
+            <path d="M12 4l-6 6 6 6" />
+          </svg>
+        </button>
+        <button class="carousel-btn" id="next-btn" aria-label="Próximo slide">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"
+            stroke-linecap="round">
+            <path d="M8 4l6 6-6 6" />
+          </svg>
+        </button>
+      </div>
+      <div class="carousel-controls">
+        <div class="carousel-dot active" data-index="0"></div>
+        <div class="carousel-dot" data-index="1"></div>
+        <div class="carousel-dot" data-index="2"></div>
+      </div>
+    </div>
+    <div class="hero-inner">
+      <div class="hero-text">
+        <div class="hero-eyebrow">Para barbearias &amp; clínicas</div>
+        <h1 class="hero-title">O sistema completo para vender mais e <em>atender melhor</em></h1>
+        <p class="hero-desc">Agendamento online, bot de WhatsApp com IA, CRM. Tudo em um só lugar, pensado para o seu
+          negócio.</p>
+        <div class="hero-actions">
+          <a href="https://conecta.zlabs.com.br/login" class="btn-primary">Começar grátis →</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-card">
+          <div class="hero-card-header">
+            <div class="hero-card-dot" style="background:#ef4444"></div>
+            <div class="hero-card-dot" style="background:#f59e0b"></div>
+            <div class="hero-card-dot" style="background:#22c55e"></div>
+            <span style="font-size:13px;color:rgba(255,255,255,0.45);margin-left:8px;font-weight:500">Z Conecta —
+              Painel</span>
+          </div>
+          <div class="stat-row">
+            <div class="stat-box">
+              <span class="stat-num">127</span>
+              <span class="stat-label">Clientes ativos</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-num">R$18k</span>
+              <span class="stat-label">Este mês</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-num">94%</span>
+              <span class="stat-label">Retenção</span>
+            </div>
+          </div>
+          <div class="hero-feature-list">
+            <div class="hero-feat">
+              <div class="hero-feat-icon">
+                <svg viewBox="0 0 12 12" fill="none">
+                  <path d="M2 6l3 3 5-5" stroke="white" stroke-width="1.5" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                </svg>
+              </div>
+              Agendamento confirmado via WhatsApp
+            </div>
+            <div class="hero-feat">
+              <div class="hero-feat-icon">
+                <svg viewBox="0 0 12 12" fill="none">
+                  <path d="M2 6l3 3 5-5" stroke="white" stroke-width="1.5" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                </svg>
+              </div>
+              Bot de IA atendendo 24h por dia
+            </div>
+            <div class="hero-feat">
+              <div class="hero-feat-icon">
+                <svg viewBox="0 0 12 12" fill="none">
+                  <path d="M2 6l3 3 5-5" stroke="white" stroke-width="1.5" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                </svg>
+              </div>
+              Planos de crédito e caixa integrado
+            </div>
+            <div class="hero-feat">
+              <div class="hero-feat-icon">
+                <svg viewBox="0 0 12 12" fill="none">
+                  <path d="M2 6l3 3 5-5" stroke="white" stroke-width="1.5" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                </svg>
+              </div>
+              Relatórios em tempo real
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION: IA WHATSAPP -->
+  <section class="section-ia" id="whatsapp">
+    <div class="ia-inner">
+      <div class="ia-card">
+        <div class="feature-text fade-up">
+          <div class="section-tag">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+              <circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="1.5" />
+              <path d="M6 3.5v3l2 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+            </svg>
+            Inteligência Artificial
+          </div>
+          <h2 class="section-title">Bot de WhatsApp com <em>IA treinada</em> para o seu negócio</h2>
+          <p class="section-desc">Atendimento automático 24h por dia, 7 dias por semana. A IA vende, agenda e tira
+            dúvidas como um humano — com a identidade do seu negócio.</p>
+          <div class="feature-list">
+            <div class="feature-item">
+              <div class="feature-check">
+                <svg viewBox="0 0 11 11" fill="none">
+                  <path d="M2 5.5l2.5 2.5 4.5-4.5" stroke="white" stroke-width="1.5" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                </svg>
+              </div>
+              Envio automático de áudios, imagens e mensagens
+            </div>
+            <div class="feature-item">
+              <div class="feature-check">
+                <svg viewBox="0 0 11 11" fill="none">
+                  <path d="M2 5.5l2.5 2.5 4.5-4.5" stroke="white" stroke-width="1.5" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                </svg>
+              </div>
+              Transferência para humano quando necessário
+            </div>
+            <div class="feature-item">
+              <div class="feature-check">
+                <svg viewBox="0 0 11 11" fill="none">
+                  <path d="M2 5.5l2.5 2.5 4.5-4.5" stroke="white" stroke-width="1.5" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                </svg>
+              </div>
+              Pausa automática quando você assume a conversa
+            </div>
+            <div class="feature-item">
+              <div class="feature-check">
+                <svg viewBox="0 0 11 11" fill="none">
+                  <path d="M2 5.5l2.5 2.5 4.5-4.5" stroke="white" stroke-width="1.5" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                </svg>
+              </div>
+              Estágios configuráveis: saudação, qualificação, fechamento
+            </div>
+          </div>
+          <div class="btn-pair">
+            <a href="https://conecta.zlabs.com.br/login" class="btn-dark">Quero o Bot →</a>
+          </div>
+        </div>
+        <div class="visual-mockup fade-up" style="position:relative">
+          <!-- WhatsApp chat demo -->
+          <div style="background:var(--navy);border-radius:20px;padding:20px;box-shadow:0 32px 80px rgba(0,22,71,0.2);">
+            <div style="background:#1a1a2e;border-radius:14px;padding:20px;font-size:13px;">
+              <div
+                style="color:rgba(255,255,255,0.4);font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:16px;">
+                WhatsApp — Z Conecta IA</div>
+              <!-- Messages -->
+              <div style="display:flex;flex-direction:column;gap:10px;">
+                <div
+                  style="background:rgba(255,255,255,0.08);border-radius:12px 12px 12px 2px;padding:10px 14px;max-width:82%;color:rgba(255,255,255,0.85);line-height:1.5;">
+                  Olá! Gostaria de agendar um horário 😊
+                </div>
+                <div
+                  style="background:#0a4ee4;border-radius:12px 12px 2px 12px;padding:10px 14px;max-width:82%;margin-left:auto;color:white;line-height:1.5;">
+                  Olá! Que ótimo! Temos horários disponíveis hoje às <strong>14h, 15h30 e 17h</strong>. Qual prefere?
+                </div>
+                <div
+                  style="background:rgba(255,255,255,0.08);border-radius:12px 12px 12px 2px;padding:10px 14px;max-width:60%;color:rgba(255,255,255,0.85);">
+                  15h30 por favor!
+                </div>
+                <div
+                  style="background:#0a4ee4;border-radius:12px 12px 2px 12px;padding:10px 14px;max-width:90%;margin-left:auto;color:white;line-height:1.5;">
+                  Perfeito! Agendamento confirmado para <strong>hoje às 15h30</strong>. Você receberá um lembrete 1h
+                  antes!
+                </div>
+                <div
+                  style="background:rgba(34,197,94,0.12);border:1px solid rgba(34,197,94,0.25);border-radius:10px;padding:10px 14px;font-size:12px;color:rgba(34,197,94,0.9);font-weight:600;display:flex;align-items:center;gap:8px;">
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                    <path d="M2 7l3.5 3.5 6.5-6.5" stroke="#22c55e" stroke-width="1.5" stroke-linecap="round"
+                      stroke-linejoin="round" />
+                  </svg>
+                  Lembrete automático enviado
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION: AGENDAMENTO -->
+  <section class="feature-section dark" id="agendamento">
+    <div class="feature-grid">
+      <div class="feature-text fade-up">
+        <div class="section-tag">Agendamento Online 24h</div>
+        <h2 class="section-title">Agendamento Online <em>24 horas</em>, sem precisar ligar</h2>
+        <p class="section-desc">Seu cliente agenda sozinho pelo celular em segundos — escolhe o profissional, o serviço,
+          a data e o horário. Confirmação automática via WhatsApp.</p>
+        <div class="feature-list">
+          <div class="feature-item">
+            <div class="feature-check">
+              <svg viewBox="0 0 11 11" fill="none">
+                <path d="M2 5.5l2.5 2.5 4.5-4.5" stroke="white" stroke-width="1.5" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+            </div>
+            Link público exclusivo para cada estabelecimento
+          </div>
+          <div class="feature-item">
+            <div class="feature-check">
+              <svg viewBox="0 0 11 11" fill="none">
+                <path d="M2 5.5l2.5 2.5 4.5-4.5" stroke="white" stroke-width="1.5" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+            </div>
+            Lembretes automáticos antes do atendimento
+          </div>
+          <div class="feature-item">
+            <div class="feature-check">
+              <svg viewBox="0 0 11 11" fill="none">
+                <path d="M2 5.5l2.5 2.5 4.5-4.5" stroke="white" stroke-width="1.5" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+            </div>
+            Bloqueio inteligente de horários conflitantes
+          </div>
+        </div>
+
+      </div>
+      <div class="screen-stack fade-up">
+        <div class="screen-main">
+          <img src="assets/screen1.png" alt="Tela de agendamento" data-img="screen1" />
+        </div>
+        <div class="float-badge tl">
+          <div class="float-badge-icon">
+            <svg viewBox="0 0 18 18" fill="none" width="18" height="18">
+              <rect x="2" y="3" width="14" height="13" rx="2" stroke="white" stroke-width="1.5" />
+              <path d="M6 1v4M12 1v4M2 7h14" stroke="white" stroke-width="1.5" stroke-linecap="round" />
+            </svg>
+          </div>
+          <div>
+            <div class="float-badge-text">+38 hoje</div>
+            <div class="float-badge-sub">Agendamentos</div>
+          </div>
+        </div>
+        <div class="float-badge br">
+          <div style="width:8px;height:8px;border-radius:50%;background:#22c55e;flex-shrink:0;"></div>
+          <div>
+            <div class="float-badge-text">Online 24h</div>
+            <div class="float-badge-sub">Sem intervenção</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION: CLIENTES E PLANOS -->
+  <section class="feature-section light" id="clientes">
+    <div class="feature-grid reverse">
+      <div class="feature-text fade-up">
+        <div class="section-tag">Gestão de Clientes</div>
+        <h2 class="section-title">Cadastro automático via <em>WhatsApp</em> e histórico completo</h2>
+        <p class="section-desc">Esqueça o trabalho manual: o bot cadastra automaticamente todos os clientes que entram em contato com a clínica. Tenha o histórico detalhado de consumo, controle de saldo e planos em um só lugar.</p>
+        <div class="feature-list">
+          <div class="feature-item">
+            <div class="feature-check">
+              <svg viewBox="0 0 11 11" fill="none">
+                <path d="M2 5.5l2.5 2.5 4.5-4.5" stroke="white" stroke-width="1.5" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+            </div>
+            Controle automático de saldo e validade dos planos
+          </div>
+          <div class="feature-item">
+            <div class="feature-check">
+              <svg viewBox="0 0 11 11" fill="none">
+                <path d="M2 5.5l2.5 2.5 4.5-4.5" stroke="white" stroke-width="1.5" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+            </div>
+            Histórico de consumo por cliente e por serviço
+          </div>
+          <div class="feature-item">
+            <div class="feature-check">
+              <svg viewBox="0 0 11 11" fill="none">
+                <path d="M2 5.5l2.5 2.5 4.5-4.5" stroke="white" stroke-width="1.5" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+            </div>
+            Ficha individual com aniversário, observações e tags
+          </div>
+        </div>
+
+      </div>
+      <div class="screen-stack fade-up">
+        <div class="screen-main">
+          <img src="assets/screen2.png" alt="Gestão de clientes" data-img="screen2" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION: CRM KANBAN -->
+  <section class="feature-section cream" id="crm">
+    <div class="feature-grid">
+      <div class="feature-text fade-up">
+        <div class="section-tag">CRM &amp; Funil de Vendas</div>
+        <h2 class="section-title">Funil visual estilo <em>Kanban</em> com análise de IA</h2>
+        <p class="section-desc">Gerencie seus leads como um CRM profissional. Análise automática de conversas com IA,
+          lembretes inteligentes para follow-up e conversão em 1 clique.</p>
+        <div class="feature-list">
+          <div class="feature-item">
+            <div class="feature-check">
+              <svg viewBox="0 0 11 11" fill="none">
+                <path d="M2 5.5l2.5 2.5 4.5-4.5" stroke="white" stroke-width="1.5" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+            </div>
+            Análise automática de conversas com IA
+          </div>
+          <div class="feature-item">
+            <div class="feature-check">
+              <svg viewBox="0 0 11 11" fill="none">
+                <path d="M2 5.5l2.5 2.5 4.5-4.5" stroke="white" stroke-width="1.5" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+            </div>
+            Lembretes inteligentes para follow-up
+          </div>
+          <div class="feature-item">
+            <div class="feature-check">
+              <svg viewBox="0 0 11 11" fill="none">
+                <path d="M2 5.5l2.5 2.5 4.5-4.5" stroke="white" stroke-width="1.5" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+            </div>
+            Conversão de lead em cliente em 1 clique
+          </div>
+        </div>
+
+      </div>
+      <div class="screen-stack fade-up">
+        <div class="kanban-demo">
+          <div class="kanban-header">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <rect x="1" y="2" width="4" height="12" rx="1.5" fill="#0a4ee4" />
+              <rect x="6" y="2" width="4" height="8" rx="1.5" fill="#0a4ee4" opacity=".5" />
+              <rect x="11" y="2" width="4" height="5" rx="1.5" fill="#0a4ee4" opacity=".25" />
+            </svg>
+            Funil de Vendas — Kanban
+          </div>
+          <div class="kanban-cols">
+            <div>
+              <div class="kanban-col-title">Novos</div>
+              <div class="kanban-card">Maria S. — Plano Mensal</div>
+              <div class="kanban-card">João P. — Corte + Barba</div>
+              <div class="kanban-card">Ana L. — Plano Trimestral</div>
+            </div>
+            <div>
+              <div class="kanban-col-title">Em negociação</div>
+              <div class="kanban-card amber">Carlos M. — Plano Anual</div>
+              <div class="kanban-card amber">Laura V. — Corte</div>
+            </div>
+            <div>
+              <div class="kanban-col-title">Fechados</div>
+              <div class="kanban-card green">Pedro R. — Plano Anual</div>
+              <div class="kanban-card green">Fernanda O.</div>
+              <div class="kanban-card green">Bruno T.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION: PROFISSIONAIS E RELATÓRIOS -->
+  <section class="feature-section dark" id="relatorios">
+    <div class="feature-grid reverse">
+      <div class="feature-text fade-up">
+        <div class="section-tag">Relatórios &amp; Profissionais</div>
+        <h2 class="section-title">Métricas completas e <em>gestão de profissionais</em></h2>
+        <p class="section-desc">Faturamento em tempo real, ranking de produtividade, comissões automáticas e controle de
+          agenda individual para cada profissional.</p>
+        <div class="feature-list">
+          <div class="feature-item">
+            <div class="feature-check">
+              <svg viewBox="0 0 11 11" fill="none">
+                <path d="M2 5.5l2.5 2.5 4.5-4.5" stroke="white" stroke-width="1.5" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+            </div>
+            Faturamento diário, semanal e mensal em tempo real
+          </div>
+          <div class="feature-item">
+            <div class="feature-check">
+              <svg viewBox="0 0 11 11" fill="none">
+                <path d="M2 5.5l2.5 2.5 4.5-4.5" stroke="white" stroke-width="1.5" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+            </div>
+            Comissões automáticas por serviço
+          </div>
+          <div class="feature-item">
+            <div class="feature-check">
+              <svg viewBox="0 0 11 11" fill="none">
+                <path d="M2 5.5l2.5 2.5 4.5-4.5" stroke="white" stroke-width="1.5" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+            </div>
+            Taxa de retenção e recorrência de clientes
+          </div>
+          <div class="feature-item">
+            <div class="feature-check">
+              <svg viewBox="0 0 11 11" fill="none">
+                <path d="M2 5.5l2.5 2.5 4.5-4.5" stroke="white" stroke-width="1.5" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+            </div>
+            Gráficos visuais e exportação de dados
+          </div>
+        </div>
+
+      </div>
+      <div class="screen-stack fade-up">
+        <div class="screen-main">
+          <img src="assets/screen3.png" alt="Relatórios" data-img="screen3" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION: CAMPANHAS -->
+  <section class="feature-section light">
+    <div class="feature-grid">
+      <div class="feature-text fade-up">
+        <div class="section-tag">Simples e Intuitivo</div>
+        <h2 class="section-title">Tão fácil que <em>qualquer um</em> consegue usar</h2>
+        <p class="section-desc">Esqueça sistemas complexos e difíceis de aprender. O Z Conecta foi desenhado para ser prático, rápido e direto ao ponto, sem necessidade de treinamentos longos.</p>
+        <div class="feature-list">
+          <div class="feature-item">
+            <div class="feature-check">
+              <svg viewBox="0 0 11 11" fill="none">
+                <path d="M2 5.5l2.5 2.5 4.5-4.5" stroke="white" stroke-width="1.5" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+            </div>
+            Interface limpa e fácil de navegar
+          </div>
+          <div class="feature-item">
+            <div class="feature-check">
+              <svg viewBox="0 0 11 11" fill="none">
+                <path d="M2 5.5l2.5 2.5 4.5-4.5" stroke="white" stroke-width="1.5" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+            </div>
+            Tudo o que você precisa a poucos cliques de distância
+          </div>
+          <div class="feature-item">
+            <div class="feature-check">
+              <svg viewBox="0 0 11 11" fill="none">
+                <path d="M2 5.5l2.5 2.5 4.5-4.5" stroke="white" stroke-width="1.5" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+            </div>
+            Sua equipe aprende a usar no primeiro dia
+          </div>
+        </div>
+
+      </div>
+      <div class="screen-stack fade-up">
+        <div class="screen-main">
+          <img src="assets/screen4.png" alt="Campanhas" data-img="screen4" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+  <!-- CTA FINAL -->
+  <section class="section-cta">
+    <div class="cta-inner fade-up">
+      <h2 class="cta-title">Pronto para transformar sua barbearia ou clínica?</h2>
+      <p class="cta-desc">Comece grátis por 14 dias. Sem cartão de crédito. Configure em minutos e já atenda seus
+        clientes pelo WhatsApp com IA.</p>
+      <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
+        <a href="https://conecta.zlabs.com.br/login" class="btn-primary" style="font-size:16px;padding:16px 36px;">Começar grátis agora →</a>
+        <a href="https://conecta.zlabs.com.br/login" class="btn-outline" style="font-size:16px;padding:16px 36px;">Falar com especialista</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div class="footer-logo">Z<span>Conecta</span></div>
+          <p class="footer-tagline">O sistema completo para clínicas venderem mais e atenderem melhor.</p>
+        </div>
+        <div class="footer-cols">
+          <div class="footer-col">
+            <div class="footer-col-title">Produto</div>
+            <ul>
+              <li><a href="#">Agendamento Online</a></li>
+              <li><a href="#">Bot de WhatsApp</a></li>
+              <li><a href="#">CRM Kanban</a></li>
+              <li><a href="#">Relatórios</a></li>
+              <li><a href="#">Campanhas</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <div class="footer-col-title">Para quem</div>
+            <ul>
+              <li><a href="#">Clínicas</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <div class="footer-col-title">Empresa</div>
+            <ul>
+              <li><a href="#">Sobre nós</a></li>
+              <li><a href="#">Blog</a></li>
+              <li><a href="#">Cases de sucesso</a></li>
+              <li><a href="#">Parcerias</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <div class="footer-col-title">Suporte</div>
+            <ul>
+              <li><a href="#">Central de ajuda</a></li>
+              <li><a href="#">WhatsApp</a></li>
+              <li><a href="#">Privacidade</a></li>
+              <li><a href="#">Termos de uso</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copy">© 2026 Z Conecta. Todos os direitos reservados.</p>
+        <div class="footer-social">
+          <a href="#" class="social-btn" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+              stroke-linejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="5" />
+              <circle cx="12" cy="12" r="4" />
+              <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
+            </svg>
+          </a>
+          <a href="#" class="social-btn" aria-label="Facebook">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+              stroke-linejoin="round">
+              <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+            </svg>
+          </a>
+          <a href="#" class="social-btn" aria-label="LinkedIn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+              stroke-linejoin="round">
+              <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+              <rect x="2" y="9" width="4" height="12" />
+              <circle cx="4" cy="4" r="2" />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+
+    // Tweak defaults
+    const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+      "heroBg": "assets/hero-bg.jpg",
+      "heroBg2": "assets/hero-bg2.jpg",
+      "feature1": "assets/feature1.jpg",
+      "feature2": "assets/feature2.jpg",
+      "feature3": "assets/feature3.jpg",
+      "screen1": "assets/screen1.png",
+      "screen2": "assets/screen2.png",
+      "screen3": "assets/screen3.png",
+      "screen4": "assets/screen4.png"
+    }/*EDITMODE-END*/;
+
+    function ImageTweaksPanel() {
+      const [tweaks, setTweaks] = useState(TWEAK_DEFAULTS);
+      const [editMode, setEditMode] = useState(false);
+
+      // Handle tweak changes
+      const handleTweakChange = (key, value) => {
+        setTweaks(prev => ({
+          ...prev,
+          [key]: value
+        }));
+        window.parent.postMessage({
+          type: '__edit_mode_set_keys',
+          edits: { [key]: value }
+        }, '*');
+      };
+
+      // Listen for edit mode activation
+      useEffect(() => {
+        const handleMessage = (e) => {
+          if (e.data.type === '__activate_edit_mode') {
+            setEditMode(true);
+          } else if (e.data.type === '__deactivate_edit_mode') {
+            setEditMode(false);
+          }
+        };
+        window.addEventListener('message', handleMessage);
+        return () => window.removeEventListener('message', handleMessage);
+      }, []);
+
+      // Register edit mode availability
+      useEffect(() => {
+        window.parent.postMessage({ type: '__edit_mode_available' }, '*');
+      }, []);
+
+      if (!editMode) return null;
+
+      return (
+        <div style={{
+          position: 'fixed',
+          bottom: '20px',
+          right: '20px',
+          zIndex: 10000,
+          background: 'white',
+          border: '1px solid #e5e8ed',
+          borderRadius: '12px',
+          boxShadow: '0 20px 60px rgba(0,0,0,0.15)',
+          padding: '20px',
+          fontFamily: "'Plus Jakarta Sans', sans-serif",
+          maxWidth: '340px',
+          maxHeight: '80vh',
+          overflow: 'auto'
+        }}>
+          <div style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginBottom: '20px',
+            paddingBottom: '12px',
+            borderBottom: '1px solid #e5e8ed'
+          }}>
+            <h3 style={{ margin: 0, fontSize: '14px', fontWeight: 700, color: '#001647' }}>
+              Tweaks — Imagens
+            </h3>
+            <button
+              onClick={() => {
+                setEditMode(false);
+                window.parent.postMessage({ type: '__edit_mode_dismissed' }, '*');
+              }}
+              style={{
+                background: 'none',
+                border: 'none',
+                fontSize: '20px',
+                cursor: 'pointer',
+                color: '#4d5c7e'
+              }}
+            >
+              ✕
+            </button>
+          </div>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            <ImageInput
+              label="Hero Carousel 1"
+              value={tweaks.heroBg}
+              onChange={(val) => handleTweakChange('heroBg', val)}
+            />
+            <ImageInput
+              label="Hero Carousel 2"
+              value={tweaks.heroBg2}
+              onChange={(val) => handleTweakChange('heroBg2', val)}
+            />
+            <ImageInput
+              label="Hero Carousel 3"
+              value={tweaks.feature1}
+              onChange={(val) => handleTweakChange('feature1', val)}
+            />
+            <ImageInput
+              label="Feature 2"
+              value={tweaks.feature2}
+              onChange={(val) => handleTweakChange('feature2', val)}
+            />
+            <ImageInput
+              label="Feature 3"
+              value={tweaks.feature3}
+              onChange={(val) => handleTweakChange('feature3', val)}
+            />
+            <ImageInput
+              label="Screen 1"
+              value={tweaks.screen1}
+              onChange={(val) => handleTweakChange('screen1', val)}
+            />
+            <ImageInput
+              label="Screen 2"
+              value={tweaks.screen2}
+              onChange={(val) => handleTweakChange('screen2', val)}
+            />
+            <ImageInput
+              label="Screen 3"
+              value={tweaks.screen3}
+              onChange={(val) => handleTweakChange('screen3', val)}
+            />
+            <ImageInput
+              label="Screen 4"
+              value={tweaks.screen4}
+              onChange={(val) => handleTweakChange('screen4', val)}
+            />
+          </div>
+        </div>
+      );
+    }
+
+    function ImageInput({ label, value, onChange }) {
+      return (
+        <div>
+          <label style={{
+            display: 'block',
+            fontSize: '12px',
+            fontWeight: 700,
+            color: '#001647',
+            marginBottom: '6px',
+            textTransform: 'uppercase',
+            letterSpacing: '0.06em'
+          }}>
+            {label}
+          </label>
+          <input
+            type="text"
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
+            placeholder="assets/image.jpg"
+            style={{
+              width: '100%',
+              padding: '8px 10px',
+              fontSize: '12px',
+              border: '1px solid #e5e8ed',
+              borderRadius: '6px',
+              fontFamily: "'Plus Jakarta Sans', sans-serif",
+              boxSizing: 'border-box'
+            }}
+          />
+          <div style={{
+            marginTop: '6px',
+            fontSize: '10px',
+            color: '#4d5c7e',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '4px'
+          }}>
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+              <path d="M6 1v5M1 6h5M6 11v-5M11 6h-5" stroke="#4d5c7e" strokeWidth="1" strokeLinecap="round" />
+              <circle cx="6" cy="6" r="5" fill="none" stroke="#4d5c7e" strokeWidth="0.5" />
+            </svg>
+            Caminho relativo (ex: assets/foto.jpg)
+          </div>
+        </div>
+      );
+    }
+
+    // Mount the tweaks panel
+    const root = ReactDOM.createRoot(document.createElement('div'));
+    root.render(<ImageTweaksPanel />);
+  </script>
+
+  <script>
+    // Carousel functionality
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.carousel-slide');
+    const dots = document.querySelectorAll('.carousel-dot');
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+
+    function showSlide(index) {
+      slides.forEach((slide, i) => {
+        slide.classList.remove('active');
+        dots[i].classList.remove('active');
+      });
+      slides[index].classList.add('active');
+      dots[index].classList.add('active');
+    }
+
+    function nextSlide() {
+      currentSlide = (currentSlide + 1) % slides.length;
+      showSlide(currentSlide);
+    }
+
+    function prevSlide() {
+      currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+      showSlide(currentSlide);
+    }
+
+    // Event listeners
+    prevBtn?.addEventListener('click', prevSlide);
+    nextBtn?.addEventListener('click', nextSlide);
+
+    dots.forEach(dot => {
+      dot.addEventListener('click', (e) => {
+        currentSlide = parseInt(e.target.dataset.index);
+        showSlide(currentSlide);
+      });
+    });
+
+    // Auto-advance carousel every 5 seconds
+    setInterval(nextSlide, 5000);
+
+    // Scroll animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+    // Update images dynamically when tweaks change
+    window.addEventListener('message', (e) => {
+      if (e.data.type === '__edit_mode_set_keys' || e.data.edits) {
+        const edits = e.data.edits || {};
+
+        // Update carousel images
+        if (edits.heroBg) {
+          const img = document.querySelector('[data-img="heroBg"]');
+          if (img) img.src = edits.heroBg;
+        }
+        if (edits.heroBg2) {
+          const img = document.querySelector('[data-img="heroBg2"]');
+          if (img) img.src = edits.heroBg2;
+        }
+        if (edits.feature1) {
+          const carImg = document.querySelector('[data-img="feature1"]');
+          if (carImg && carImg.closest('.carousel-slide')) {
+            carImg.src = edits.feature1;
+          }
+        }
+
+        // Update section images
+        if (edits.feature2) {
+          document.querySelectorAll('[data-img="feature2"]').forEach(el => {
+            if (!el.closest('.carousel-slide')) el.src = edits.feature2;
+          });
+        }
+        if (edits.feature3) {
+          document.querySelectorAll('[data-img="feature3"]').forEach(el => {
+            if (!el.closest('.carousel-slide')) el.src = edits.feature3;
+          });
+        }
+        if (edits.screen1) {
+          document.querySelectorAll('[data-img="screen1"]').forEach(el => {
+            el.src = edits.screen1;
+          });
+        }
+        if (edits.screen2) {
+          document.querySelectorAll('[data-img="screen2"]').forEach(el => {
+            el.src = edits.screen2;
+          });
+        }
+        if (edits.screen3) {
+          document.querySelectorAll('[data-img="screen3"]').forEach(el => {
+            el.src = edits.screen3;
+          });
+        }
+        if (edits.screen4) {
+          document.querySelectorAll('[data-img="screen4"]').forEach(el => {
+            el.src = edits.screen4;
+          });
+        }
+      }
+    });
+  </script>
+
+</body>
+
+</html>
